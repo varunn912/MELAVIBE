@@ -1,0 +1,9 @@
+{
+  "name": "Copy of MelaVibe_online",
+  "description": "A multilingual, real-time online PWA for festival attendees to report issues like safety, health, or lost persons using icons, voice, or text. Includes an online dashboard for organizers to manage reports.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera",
+    "geolocation"
+  ]
+}

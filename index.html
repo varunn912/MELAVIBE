@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MelaVibe</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#8B5CF6" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              primary: {
+                light: '#A78BFA', // violet-400
+                DEFAULT: '#8B5CF6', // violet-500
+                dark: '#7C3AED',  // violet-600
+              },
+              secondary: {
+                light: '#5EEAD4', // teal-300
+                DEFAULT: '#2DD4BF', // teal-400
+                dark: '#14B8A6',   // teal-500
+              },
+              background: {
+                light: '#F5F3FF', // violet-50
+                dark: '#1E1B4B',   // indigo-950
+              },
+              surface: {
+                light: '#FFFFFF', // white
+                dark: '#312E81',   // indigo-900
+              },
+              'copy-primary': {
+                light: '#1E293B', // slate-800
+                dark: '#E0E7FF',   // indigo-100
+              },
+              'copy-secondary': {
+                light: '#475569', // slate-600
+                dark: '#A5B4FC',   // indigo-300
+              },
+              border: {
+                light: '#E0E7FF', // indigo-200
+                dark: '#4338CA',   // indigo-700
+              }
+            },
+          },
+        },
+      }
+    </script>
+    <!-- Custom Animations & Styles -->
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+      @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes scale-in {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      @keyframes slide-in-bottom {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes slide-in-top {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes pulse {
+        50% { opacity: .7; }
+      }
+      @keyframes scan-line {
+        0% { top: 0%; }
+        100% { top: 95%; }
+      }
+      @keyframes float-subtle {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+      }
+      .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
+      .animate-scale-in { animation: scale-in 0.3s ease-out forwards; }
+      .animate-slide-in-bottom { animation: slide-in-bottom 0.5s ease-out forwards; opacity: 0; }
+      .animate-slide-in-top { animation: slide-in-top 0.5s ease-out forwards; }
+      .animate-pulse-slow { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+      .animate-float-subtle { animation: float-subtle 4s ease-in-out infinite; }
+
+      /* QR Scanner Animation */
+      .qr-scanner-container {
+        position: relative;
+        overflow: hidden;
+      }
+      .qr-scanner-container::after {
+        content: '';
+        position: absolute;
+        left: 5%;
+        width: 90%;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #2DD4BF, transparent);
+        box-shadow: 0 0 10px #2DD4BF;
+        border-radius: 2px;
+        animation: scan-line 3s infinite ease-in-out;
+      }
+
+      /* Map View Enhancements */
+      .map-container {
+        background-color: #1E1B4B; /* indigo-950 */
+        background-image: 
+          linear-gradient(rgba(124, 58, 237, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(124, 58, 237, 0.1) 1px, transparent 1px);
+        background-size: 3rem 3rem;
+        position: relative;
+      }
+      .map-container::after {
+        content: '';
+        position: absolute;
+        width: 200%;
+        padding-bottom: 200%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(45, 212, 191, 0.3) 0%, rgba(45, 212, 191, 0) 60%);
+        top: 50%;
+        left: 50%;
+        transform-origin: center center;
+        animation: radar-sweep 4s linear infinite;
+        pointer-events: none;
+      }
+      .map-pin-wrapper {
+        animation: scale-in 0.5s ease-out forwards;
+        opacity: 0; /* Start hidden for animation */
+      }
+      .map-pin {
+          position: relative;
+          z-index: 10;
+      }
+      .map-pin::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        z-index: -1;
+      }
+      .map-pin.low-priority::after { animation: map-pin-pulse-low 2s infinite; }
+      .map-pin.medium-priority::after { animation: map-pin-pulse-medium 2s infinite; }
+      .map-pin.high-priority::after { animation: map-pin-pulse-high 2s infinite; }
+      @keyframes map-pin-pulse-low {
+        0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+      }
+      @keyframes map-pin-pulse-medium {
+        0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+      }
+      @keyframes map-pin-pulse-high {
+        0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+      }
+      
+      .print-only-title {
+        display: none;
+      }
+
+      /* --- Definitive Print Styles --- */
+      @media print {
+        @page {
+          size: A4;
+          margin: 1.5cm;
+        }
+
+        /* Hide everything on the page by default */
+        body * {
+          visibility: hidden !important;
+        }
+        
+        /* Then, make the print area and its children visible */
+        .print-area, .print-area * {
+          visibility: visible !important;
+        }
+        
+        /* Position the print area to take up the whole page */
+        .print-area {
+          position: absolute !important;
+          left: 0 !important;
+          top: 0 !important;
+          width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          box-shadow: none !important;
+          border: none !important;
+        }
+
+        /* Show the dedicated title for the print version */
+        .print-only-title {
+          display: block !important;
+          text-align: center;
+          font-size: 20pt !important;
+          font-weight: 700 !important;
+          margin-bottom: 1.5rem !important;
+          color: black !important;
+        }
+
+        /* Force colors and backgrounds to print for cards and charts */
+        .print-card, .chart-bar {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        
+        .print-card {
+          background-color: #f3f4f6 !important; /* gray-100 */
+          border: 1px solid #d1d5db !important; /* gray-300 */
+          break-inside: avoid;
+        }
+        
+        /* Standardize all text to black */
+        .print-area * {
+          color: black !important;
+        }
+        
+        /* Disable any animations or transitions that might interfere */
+        .print-area *, .print-area *::before, .print-area *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.1.1/client",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "qrcode": "https://esm.sh/qrcode@1.5.3",
+    "html5-qrcode": "https://esm.sh/html5-qrcode@2.3.8",
+    "@google/genai": "https://esm.sh/@google/genai",
+    "firebase/app": "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
+    "firebase/database": "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "firebase/": "https://aistudiocdn.com/firebase@^12.4.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="antialiased bg-background-light dark:bg-background-dark">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

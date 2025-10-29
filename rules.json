@@ -1,0 +1,34 @@
+
+{
+  "rules": {
+    "reports": {
+      ".read": true,
+      "$reportId": {
+        ".write": "newData.exists()",
+        ".validate": "newData.hasChildren(['id', 'type', 'description', 'timestamp', 'status', 'userId']) && newData.child('timestamp').isNumber() && newData.child('status').isString() && newData.child('status').val().matches(/^(NEW|IN_PROGRESS|RESOLVED)$/)",
+        "organizerNotes": {
+          ".write": "newData.exists()"
+        }
+      }
+    },
+    "lostAndFound": {
+      ".read": true,
+      "$itemId": {
+        ".write": "newData.exists()",
+        ".validate": "newData.hasChildren(['id', 'status', 'category', 'description', 'timestamp', 'userId', 'isResolved']) && newData.child('status').val().matches(/^(LOST|FOUND)$/) && newData.child('isResolved').isBoolean()"
+      }
+    },
+    "announcement": {
+      ".read": true,
+      ".write": "newData.exists() && newData.hasChildren(['id', 'message'])"
+    },
+    "surveys": {
+      ".read": true,
+      "$surveyId": {
+        ".write": "newData.exists() && newData.hasChildren(['rating', 'feedback', 'timestamp']) && newData.child('rating').isNumber() && newData.child('rating').val() >= 1 && newData.child('rating').val() <= 5"
+      }
+    },
+    ".read": false,
+    ".write": false
+  }
+}
