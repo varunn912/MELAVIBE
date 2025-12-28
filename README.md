@@ -73,3 +73,6 @@ Before deploying, you must secure your database to ensure data integrity.
 Once your security rules are in place, deploy the application. Open it, complete the one-time Firebase setup, and the application will be fully functional.
 
 DEMO: https://melavibeonlinefinal.vercel.app/
+
+<img width="1279" height="1147" alt="image" src="https://github.com/user-attachments/assets/96f25098-a4d8-4420-a1c5-2ab6e307ac66" />
+
