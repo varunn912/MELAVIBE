@@ -76,3 +76,5 @@ DEMO: https://melavibeonlinefinal.vercel.app/
 
 <img width="1279" height="1147" alt="image" src="https://github.com/user-attachments/assets/96f25098-a4d8-4420-a1c5-2ab6e307ac66" />
 
+SCAN THE ABOVE QR AFTER YOU ENTER INTO THE APPLICATION, FOR DATABASE CONFIGURATION.
+
