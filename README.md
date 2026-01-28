@@ -199,7 +199,7 @@ Once deployed:
 > Scan the QR code inside the application for database configuration.
 
 <img width="833" height="827" alt="image" src="https://github.com/user-attachments/assets/e4fceb0d-bc51-4985-bdb3-06ef8d929b7b" />
-
+Password For Organizer Dashboard access is "organizer"
 
 ---
 
